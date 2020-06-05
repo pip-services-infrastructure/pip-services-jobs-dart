@@ -134,7 +134,7 @@ class JobsMongoDbPersistence
   @override
   Future<JobV1> startJobById(
       String correlationId, String id, num timeout) async {
-    var now = DateTime.now();
+    var now = DateTime.now().toUtc();
     var filter = {
       r'$and': [
         {'_id': id},
@@ -169,7 +169,8 @@ class JobsMongoDbPersistence
         'timeout': timeout,
         'started': now.toIso8601String(),
         'locked_until': DateTime.fromMillisecondsSinceEpoch(
-            now.millisecondsSinceEpoch + timeout).toIso8601String(),
+                now.millisecondsSinceEpoch + timeout)
+            .toIso8601String(),
       },
       r'$inc': {'retries': 1}
     };
@@ -190,7 +191,7 @@ class JobsMongoDbPersistence
   @override
   Future<JobV1> startJobByType(
       String correlationId, String type, num timeout, num maxRetries) async {
-    var now = DateTime.now();
+    var now = DateTime.now().toUtc();
     var filter = {
       r'$and': [
         {'type': type},
@@ -228,7 +229,8 @@ class JobsMongoDbPersistence
         'timeout': timeout,
         'started': now.toIso8601String(),
         'locked_until': DateTime.fromMillisecondsSinceEpoch(
-            now.millisecondsSinceEpoch + timeout).toIso8601String(),
+                now.millisecondsSinceEpoch + timeout)
+            .toIso8601String(),
       },
       r'$inc': {'retries': 1}
     };

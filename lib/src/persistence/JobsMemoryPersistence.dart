@@ -164,7 +164,7 @@ class JobsMemoryPersistence extends IdentifiableMemoryPersistence<JobV1, String>
       return null;
     } else {
       var job = item.first;
-      var now = DateTime.now();
+      var now = DateTime.now().toUtc();
       if (job.completed == null &&
           (job.locked_until == null ||
               job.locked_until.millisecondsSinceEpoch <=
@@ -188,7 +188,7 @@ class JobsMemoryPersistence extends IdentifiableMemoryPersistence<JobV1, String>
   @override
   Future<JobV1> startJobByType(
       String correlationId, String type, num timeout, num maxRetries) async {
-    var now = DateTime.now();
+    var now = DateTime.now().toUtc();
     var item = items.isNotEmpty
         ? items.where((item) =>
             item.type == type &&

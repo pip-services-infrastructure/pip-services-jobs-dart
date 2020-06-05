@@ -33,15 +33,15 @@ class JobV1 implements IStringIdentifiable {
         type = type,
         ref_id = ref_id,
         params = params,
-        created = created ?? DateTime.now(),
+        created = created,
         started = started,
         locked_until = locked_until,
         execute_until = execute_until,
         completed = completed,
-        retries = retries ?? 0;
+        retries = retries;
 
   JobV1.fromNewJobV1(NewJobV1 newJob) {
-    created = DateTime.now();
+    created = DateTime.now().toUtc();
     retries = 0;
 
     if (newJob != null) {
@@ -50,7 +50,8 @@ class JobV1 implements IStringIdentifiable {
       params = newJob.params;
       if (newJob.ttl != null && newJob.ttl > 0) {
         execute_until = DateTime.fromMillisecondsSinceEpoch(
-            DateTime.now().millisecondsSinceEpoch + newJob.ttl);
+                DateTime.now().toUtc().millisecondsSinceEpoch + newJob.ttl)
+            .toUtc();
       }
     }
   }
