@@ -157,7 +157,7 @@ class JobsMongoDbPersistence
               'locked_until': {r'$exists': false}
             },
             {
-              'locked_until': {r'$lte': now}
+              'locked_until': {r'$lte': now.toIso8601String()}
             }
           ]
         }
@@ -167,9 +167,9 @@ class JobsMongoDbPersistence
     var update = {
       r'$set': {
         'timeout': timeout,
-        'started': now,
+        'started': now.toIso8601String(),
         'locked_until': DateTime.fromMillisecondsSinceEpoch(
-            now.millisecondsSinceEpoch + timeout),
+            now.millisecondsSinceEpoch + timeout).toIso8601String(),
       },
       r'$inc': {'retries': 1}
     };
@@ -213,7 +213,7 @@ class JobsMongoDbPersistence
               'locked_until': {r'$exists': false}
             },
             {
-              'locked_until': {r'$lte': now}
+              'locked_until': {r'$lte': now.toIso8601String()}
             }
           ]
         },
@@ -228,7 +228,7 @@ class JobsMongoDbPersistence
         'timeout': timeout,
         'started': now.toUtc(),
         'locked_until': DateTime.fromMillisecondsSinceEpoch(
-            now.millisecondsSinceEpoch + timeout),
+            now.millisecondsSinceEpoch + timeout).toIso8601String(),
       },
       r'$inc': {'retries': 1}
     };
