@@ -236,7 +236,6 @@ class JobsMongoDbPersistence
     var item = await collection.findAndModify(
         query: filter, update: update, returnNew: true, upsert: false);
 
-    item.remove('_id');
     if (item == null) {
       logger.trace(correlationId, 'Nothing found from %s with type = %s',
           [collectionName, type]);
