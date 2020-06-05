@@ -205,8 +205,7 @@ class JobsPersistenceFixture {
     expect(page.data.length, 2);
 
     // Test updateJobForStart
-    // var job = await _persistence.startJobByType(null, 't2', 1000, 6);
-    var job = await _persistence.startJobById(null, JOB3.id, 1000);
+    var job = await _persistence.startJobByType(null, 't2', 1000, 6);
     expect(job, isNotNull);
     expect(JOB3.retries + 1, job.retries);
     expect(JOB3.started.millisecondsSinceEpoch, isNotNull);

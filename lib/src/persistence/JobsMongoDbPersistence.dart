@@ -226,7 +226,7 @@ class JobsMongoDbPersistence
     var update = {
       r'$set': {
         'timeout': timeout,
-        'started': now.toUtc(),
+        'started': now.toIso8601String(),
         'locked_until': DateTime.fromMillisecondsSinceEpoch(
             now.millisecondsSinceEpoch + timeout).toIso8601String(),
       },
