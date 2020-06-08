@@ -84,11 +84,14 @@ class JobsCommandSet extends CommandSet {
         'start_job_by_type',
         ObjectSchema(true)
             .withRequiredProperty('type', TypeCode.String)
-            .withRequiredProperty('timeout', TypeCode.Integer),
+            .withRequiredProperty('timeout', TypeCode.Integer)
+            .withOptionalProperty('max_retries', TypeCode.Integer),
         (String correlationId, Parameters args) {
       var type = args.getAsString('type');
       var timeout = args.getAsIntegerWithDefault('timeout', 1000 * 60);
-      return _controller.startJobById(correlationId, type, timeout);
+      var maxRetries = args.getAsIntegerWithDefault('max_retries', 10);
+      return _controller.startJobByType(
+          correlationId, type, timeout, maxRetries);
     });
   }
 
